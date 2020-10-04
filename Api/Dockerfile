@@ -1,22 +1,25 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# https://hub.docker.com/_/microsoft-dotnet-core
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /source
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+# copy csproj and restore as distinct layers
+COPY Api/*.csproj Api/
+COPY Application/*.csproj Application/
+COPY Domain/*.csproj Domain/
+RUN dotnet restore Api/Api.csproj
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
-COPY ["Api/Api.csproj", "Api/"]
-RUN dotnet restore "Api/Api.csproj"
-COPY . .
-WORKDIR "/src/Api"
-RUN dotnet build "Api.csproj" -c Release -o /app/build
+# copy and build app and libraries
+COPY Api/ Api/
+COPY Application/ Application/
+COPY Domain/ Domain/
+WORKDIR /source/Api
+RUN dotnet build -c release --no-restore
 
 FROM build AS publish
-RUN dotnet publish "Api.csproj" -c Release -o /app/publish
+RUN dotnet publish -c release --no-build -o /app
 
-FROM base AS final
+# final stage/image
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Api.dll"]
