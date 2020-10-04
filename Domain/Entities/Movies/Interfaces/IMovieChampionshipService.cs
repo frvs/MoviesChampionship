@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Domain.Entities.Movies.Interfaces
 {
     public interface IMovieChampionshipService
     {
-        List<Movie> MatchMovies(List<Movie> movies);
+        MovieMatchResult GetChampionshipResult(List<Movie> movies);
     }
 }

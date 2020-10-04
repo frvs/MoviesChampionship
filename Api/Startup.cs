@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Services.Movies;
+using Domain.Entities.Movies.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Api
 {
@@ -25,7 +28,24 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IMovieChampionshipService, MovieChampionshipService>();
             services.AddControllers();
+            services.AddCors();
+            services.AddSwaggerGen(c => {
+
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Movies Championship API",
+                        Version = "v1",
+                        Description = "Exemplo de API REST criada com .NET Core para a Copa Filmes.",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Lucas Frois",
+                            Url = new Uri("https://github.com/frvs")
+                        }
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,12 +59,20 @@ namespace Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(option => option.AllowAnyOrigin());
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "Movies Championship API");
             });
         }
     }
