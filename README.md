@@ -6,7 +6,7 @@ Aplicação que, dado oito filmes pré-selecionados, gera um torneio entre eles 
 - `dotnet core 3.1`
 - `git`
 
-## Para rodar:
+## Para rodar
 ```
 git clone https://github.com/frvs/MoviesChampionship.git
 cd MoviesChampionship/Api
