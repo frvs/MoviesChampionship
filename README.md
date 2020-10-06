@@ -1,6 +1,6 @@
 # MoviesChampionship
 
-## Aplicação que, dado oito filmes pré-selecionados, gera um torneio entre eles e retorna os dois primeiros colocados.
+Aplicação que, dado oito filmes pré-selecionados, gera um torneio entre eles e retorna os dois primeiros colocados.
 
 ## Requisitos
 - `dotnet core 3.1`
