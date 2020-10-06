@@ -2,6 +2,10 @@
 
 ## Aplicação que, dado oito filmes pré-selecionados, gera um torneio entre eles e retorna os dois primeiros colocados.
 
+## Requisitos
+- `dotnet core 3.1`
+- `git`
+
 ## Para rodar:
 ```
 git clone https://github.com/frvs/MoviesChampionship.git
