@@ -2,6 +2,9 @@
 
 Aplicação que, dado oito filmes pré-selecionados, gera um torneio entre eles e retorna os dois primeiros colocados.
 
+## API in-production
+[Heroku App - Swagger](https://movieschampionship.herokuapp.com/swagger/index.html)  
+
 ## Requisitos
 - `dotnet core 3.1`
 - `git`
